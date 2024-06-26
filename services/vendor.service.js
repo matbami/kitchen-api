@@ -7,9 +7,7 @@ class VendorService {
   }
 
   async getAllVendors() {
-    return await this.vendorRepository.find({
-
-    });
+    return await this.vendorRepository.find();
   }
 
   async getVendorById(id) {
