@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "npm run build && cross-env NODE_ENV=production node dist/index.js",
     "dev": "npm run migration && nodemon main.js",
     "migration": "typeorm migration:run -d ./ormconfig.js",
     "typeorm": "typeorm",
