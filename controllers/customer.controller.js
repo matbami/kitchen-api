@@ -3,7 +3,7 @@ import customerService from "../services/customer.service.js";
 class CustomerController {
   async register(req, res,) {
     try {
-      const user = await customerServicer.register(req.body);
+      const user = await customerService.register(req.body);
 
       res.status(201).json(user);
     } catch (error) {
