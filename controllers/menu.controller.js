@@ -24,7 +24,7 @@ class MenuController {
 
   async getAllMenu(req, res) {
     try {
-      const menu = await this.menuService.getMenuItems(req.user.id);
+      const menu = await this.menuService.getMenuItems();
       res.status(200).json({ message: "Menu retrieved successfully", menu });
     } catch (error) {
       res.status(500).send(error.message);
@@ -55,7 +55,7 @@ class MenuController {
   async deleteMenuItem(req, res) {
     try {
       await this.menuService.deleteMenuItem(req.params.id);
-      res.status(204).send("Menu deleted successfully");
+      res.status(204).json("Menu deleted successfully");
     } catch (error) {
       res.status(500).send(error.message);
     }

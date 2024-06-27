@@ -22,7 +22,7 @@ menuRouter.patch(
 );
 menuRouter.delete(
   "/:id",
-  validate(menuIdSchema),
+  validateParams(menuIdSchema),
   (req, res) => MenuController.deleteMenuItem(req, res)
 );
 menuRouter.get(
@@ -34,8 +34,7 @@ menuRouter.get(
 
 menuRouter.get(
     "",
-    authenticateToken,
-    authorizeRole(role.VENDOR),
+
     (req, res) => MenuController.getAllMenu(req, res)
   );
 

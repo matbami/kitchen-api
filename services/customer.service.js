@@ -8,6 +8,8 @@ class CustomerService {
     this.customerRepository = appDataSource.getRepository(CustomerSchema);
   }
   async register(customerDetails) {
+
+    //check if 
     customerDetails.password = await bcrypt.hash(customerDetails.password, 10);
 
     const user = await this.customerRepository.save(customerDetails);

@@ -6,8 +6,8 @@ export const MenuSchema = new EntitySchema({
   columns: {
     id: {
       primary: true,
-      type: "int",
-      generated: true,
+      type: "varchar",
+      generated: "uuid",
     },
     name: {
       type: "varchar",
@@ -37,7 +37,6 @@ export const MenuSchema = new EntitySchema({
       type: "many-to-one",
       target: "Vendor",
       joinColumn: true,
-      eager: true,
     },
   },
 });
