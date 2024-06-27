@@ -7,8 +7,8 @@ export const CustomerSchema = new EntitySchema({
   columns: {
     id: {
       primary: true,
-      type: "int",
-      generated: true,
+      type: "varchar",
+      generated: "uuid",
     },
     name: {
       type: "varchar",
@@ -20,6 +20,11 @@ export const CustomerSchema = new EntitySchema({
     },
     password: {
       type: "varchar",
+    },
+
+    role: {
+      type: "varchar",
+      default: "customer",
     },
   },
 

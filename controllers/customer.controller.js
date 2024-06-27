@@ -1,12 +1,13 @@
 import customerService from "../services/customer.service.js";
 import jwt from "jsonwebtoken";
+import { generateToken } from "../helper.js";
 
 class CustomerController {
   async register(req, res) {
     try {
-      const customer = await customerService.register(req.body);
-      const token = jwt.sign({ id: customer.id }, process.env.JWT_TOKEN);
-      res.status(201).json({ customer, token });
+      const user = await customerService.register(req.body);
+
+      res.status(201).json(user);
     } catch (error) {
       res.status(500).send(error.message);
     }
@@ -14,12 +15,8 @@ class CustomerController {
 
   async login(req, res) {
     try {
-      const customer = await customerService.login(req.body);
-      if (!customer) {
-        throw new Error("User des not exist");
-      }
-      const token = jwt.sign({ id: customer.id }, process.env.JWT_TOKEN);
-      res.status(200).json({ customer, token });
+      const user = await customerService.login(req.body);
+      res.status(200).json(user);
     } catch (error) {
       res.status(401).send(error.message);
     }

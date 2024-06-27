@@ -6,9 +6,19 @@ export const authenticateToken = (req, res, next) => {
 
   if (token == null) return res.sendStatus(401);
 
-  jwt.verify(token, process.env.JWT_TOKEN, (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
-    req.user = user.id;
+    console.log(user)
+    req.user = user
     next();
   });
+};
+
+export const authorizeRole = (roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            return res.status(403).send('Access denied');
+        }
+        next();
+    };
 };

@@ -1,4 +1,3 @@
-import { timeStamp } from "console";
 import { EntitySchema, Timestamp } from "typeorm";
 
 export const MenuSchema = new EntitySchema({
@@ -7,15 +6,15 @@ export const MenuSchema = new EntitySchema({
   columns: {
     id: {
       primary: true,
-      type: 'int',
+      type: "int",
       generated: true,
     },
     name: {
-      type: 'varchar',
+      type: "varchar",
       nullable: false,
     },
     description: {
-      type: 'varchar',
+      type: "varchar",
       nullable: false,
     },
     price: {

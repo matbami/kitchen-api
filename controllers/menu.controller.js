@@ -7,16 +7,25 @@ class MenuController {
   async createMenu(req, res) {
     try {
       const menu = await this.menuService.createMenuItem(req.body);
-      res.json(menu);
+      res.status(201).json({ message: "Menu created successfully", menu });
     } catch (error) {
       res.status(500).send(error.message);
     }
   }
 
-  async getAllMenuByVendor(req, res) {
+  async getAllMenuByVendorForCustomers(req, res) {
     try {
       const menu = await this.menuService.getMenuItems(req.params.id);
-      res.json("menu retrieved successfully", menu);
+      res.status(200).json({ message: "Menu retrieved successfully", menu });
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  }
+
+  async getAllMenu(req, res) {
+    try {
+      const menu = await this.menuService.getMenuItems(req.user.id);
+      res.status(200).json({ message: "Menu retrieved successfully", menu });
     } catch (error) {
       res.status(500).send(error.message);
     }

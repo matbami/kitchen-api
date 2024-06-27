@@ -7,7 +7,9 @@ class VendorController {
   async getAllVendors(req, res) {
     try {
       const vendors = await this.vendorService.getAllVendors();
-      res.status(200).json(vendors);
+      res
+        .status(200)
+        .json({ message: "Vendors retrieved successfully", vendors });
     } catch (error) {
       res.status(500).send(error.message);
     }
@@ -19,7 +21,7 @@ class VendorController {
       if (!vendor) {
         throw new Error("Vendor not found");
       }
-      res.json(vendor);
+      res.json({ message: "Vendor retrieved successfully", vendor });
     } catch (error) {
       res.status(500).send(error.message);
     }

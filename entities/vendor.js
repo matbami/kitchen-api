@@ -6,16 +6,20 @@ export const VendorSchema = new EntitySchema({
   columns: {
     id: {
       primary: true,
-      type: 'int',
-      generated: true,
+      type: "varchar",
+      generated: "uuid",
     },
     name: {
-      type: 'varchar',
+      type: "varchar",
       nullable: false,
     },
     address: {
       type: "text",
       nullable: false,
+    },
+    role: {
+      type: "varchar",
+      default: "vendor",
     },
   },
 });
