@@ -5,37 +5,45 @@ import { validate, validateParams } from "../middlewares/validation.js";
 import {
   createMenuSchema,
   menuIdSchema,
+  updateMenuSchema,
 } from "../validations/menu.validations.js";
 import { authorizeRole } from "../middlewares/auth.js";
 import { role } from "../helper.js";
 
 const menuRouter = express.Router();
 
-menuRouter.post("",validate(createMenuSchema), (req, res) =>
-  MenuController.createMenu(req, res)
+menuRouter.post(
+  "",
+  authenticateToken,
+  authorizeRole(role.VENDOR),
+  validate(createMenuSchema),
+  (req, res) => MenuController.createMenu(req, res)
 );
 menuRouter.patch(
   "/:id",
-  validate(createMenuSchema),
-  validate(menuIdSchema),
+  authenticateToken,
+  authorizeRole(role.VENDOR),
+  validate(updateMenuSchema),
+  validateParams(menuIdSchema),
   (req, res) => MenuController.updateMenuItem(req, res)
 );
 menuRouter.delete(
   "/:id",
+  authenticateToken,
+  authorizeRole(role.VENDOR),
   validateParams(menuIdSchema),
   (req, res) => MenuController.deleteMenuItem(req, res)
 );
 menuRouter.get(
   "/:id",
-
+  authenticateToken,
+  authorizeRole(role.VENDOR),
   validateParams(menuIdSchema),
   (req, res) => MenuController.getOneMenuItem(req, res)
 );
 
-menuRouter.get(
-    "",
-
-    (req, res) => MenuController.getAllMenu(req, res)
-  );
+menuRouter.get("", authenticateToken, authorizeRole(role.VENDOR), (req, res) =>
+  MenuController.getAllMenu(req, res)
+);
 
 export default menuRouter;

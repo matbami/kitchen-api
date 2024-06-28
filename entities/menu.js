@@ -19,6 +19,7 @@ export const MenuSchema = new EntitySchema({
     },
     price: {
       type: "decimal",
+      scale: 2,
       nullable: false,
     },
     createdAt: {
@@ -33,10 +34,14 @@ export const MenuSchema = new EntitySchema({
   },
 
   relations: {
-    vendor: {
+    user: {
       type: "many-to-one",
-      target: "Vendor",
-      joinColumn: true,
+      target: "User",
+      joinColumn: {
+        name: "userId",
+        referencedColumnName: "id",
+      },
+      eager: false,
     },
   },
 });

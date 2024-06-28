@@ -8,17 +8,16 @@ export const authenticateToken = (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
-    console.log(user)
-    req.user = user
+    req.user = user;
     next();
   });
 };
 
 export const authorizeRole = (roles) => {
-    return (req, res, next) => {
-        if (!roles.includes(req.user.role)) {
-            return res.status(403).send('Access denied');
-        }
-        next();
-    };
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).send("Access denied");
+    }
+    next();
+  };
 };

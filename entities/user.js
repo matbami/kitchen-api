@@ -1,18 +1,30 @@
 import { EntitySchema } from "typeorm";
 import bcrypt from "bcryptjs";
 
-export const CustomerSchema = new EntitySchema({
-  name: "Customer",
-  tableName: "customers",
+export const UserSchema = new EntitySchema({
+  name: "User",
+  tableName: "user",
   columns: {
     id: {
       primary: true,
       type: "varchar",
       generated: "uuid",
     },
-    name: {
+    firstName: {
       type: "varchar",
       nullable: false,
+    },
+    lastName: {
+      type: "varchar",
+      nullable: false,
+    },
+    businessName: {
+      type: "varchar",
+      nullable: true,
+    },
+    address: {
+      type: "varchar",
+      nullable: true,
     },
     email: {
       type: "varchar",
@@ -20,15 +32,13 @@ export const CustomerSchema = new EntitySchema({
     },
     password: {
       type: "varchar",
+      nullable: false
     },
 
     role: {
-      type: "varchar",
+      type: "enum",
+      enum: ["customer", "vendor"],
       default: "customer",
     },
-  },
-
-  beforeInsert: async (entity) => {
-    entity.password = await bcrypt.hash(entity.password, 10);
   },
 });

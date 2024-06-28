@@ -1,29 +1,29 @@
 import appDataSource from "../ormconfig.js";
 import { MenuSchema } from "../entities/menu.js";
-import { VendorSchema } from "../entities/vendor.js";
+
 
 class MenuService {
   constructor() {
     this.menuRepository = appDataSource.getRepository(MenuSchema);
-    this.vendorRepository = appDataSource.getRepository(VendorSchema);
   }
   async createMenuItem(menuDetails) {
-    //check if vendor exist
-    const vendor = await this.vendorRepository.findOne({
-      where: {
-        id: menuDetails.vendorId,
-      },
+
+    const k = menuDetails.userId
+    console.log(k)
+
+    const menu = this.menuRepository.create({
+      ...menuDetails,
+      k,
     });
-    if (!vendor) {
-      throw new Error("Vendor does not exist");
-    }
-    return await this.menuRepository.save(menuDetails);
+
+    return await this.menuRepository.save(menu);
+   
   }
 
   async getMenuItemsByVendorId(id) {
     return await this.menuRepository.find({
       where: {
-        vendorId: id,
+        userId: id,
       },
     });
   }
@@ -42,6 +42,7 @@ class MenuService {
 
   async updateMenuItem(id, criteria) {
     return await this.menuRepository.update(id, criteria);
+    
   }
 
   async deleteMenuItem(id) {

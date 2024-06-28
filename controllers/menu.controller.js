@@ -1,12 +1,10 @@
-import MenuService from "../services/menu.service.js";
+import menuService from "../services/menu.service.js";
 class MenuController {
-  constructor() {
-    this.menuService = MenuService;
-  }
-
   async createMenu(req, res) {
     try {
-      const menu = await this.menuService.createMenuItem(req.body);
+      const body = req.body;
+      body.userId = req.user.id;
+      const menu = await menuService.createMenuItem(body);
       res.status(201).json({ message: "Menu created successfully", menu });
     } catch (error) {
       res.status(500).send(error.message);
@@ -15,16 +13,16 @@ class MenuController {
 
   async getAllMenuByVendorForCustomers(req, res) {
     try {
-      const menu = await this.menuService.getMenuItems(req.params.id);
+      const menu = await menuService.getMenuItemsByVendorId(req.params.id);
       res.status(200).json({ message: "Menu retrieved successfully", menu });
     } catch (error) {
       res.status(500).send(error.message);
     }
   }
 
-  async getAllMenu(req, res) {
+  async getAllMenu(req,res) {
     try {
-      const menu = await this.menuService.getMenuItems();
+      const menu = await menuService.getMenuItems();
       res.status(200).json({ message: "Menu retrieved successfully", menu });
     } catch (error) {
       res.status(500).send(error.message);
@@ -33,7 +31,7 @@ class MenuController {
 
   async getOneMenuItem(req, res) {
     try {
-      const menu = await this.menuService.getOneMenuItem(req.params.id);
+      const menu = await menuService.getOneMenuItem(req.params.id);
       res.status(200).json({ message: "Menu retrieved successfully", menu });
     } catch (error) {
       res.status(500).send(error.message);
@@ -42,10 +40,7 @@ class MenuController {
 
   async updateMenuItem(req, res) {
     try {
-      const menu = await this.menuService.updateMenuItem(
-        req.params.id,
-        req.body
-      );
+      const menu = await menuService.updateMenuItem(req.params.id, req.body);
       res.json({ message: "Menu updated successfully", menu });
     } catch (error) {
       res.status(500).send(error.message);
@@ -54,8 +49,8 @@ class MenuController {
 
   async deleteMenuItem(req, res) {
     try {
-      await this.menuService.deleteMenuItem(req.params.id);
-      res.status(204).json("Menu deleted successfully");
+      await menuService.deleteMenuItem(req.params.id);
+      res.status(204).send("Menu deleted successfully");
     } catch (error) {
       res.status(500).send(error.message);
     }
