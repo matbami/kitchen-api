@@ -12,8 +12,10 @@ class MenuService {
   async getMenuItemsByVendorId(id) {
     return await this.menuRepository.find({
       where: {
-        userId: id,
+        user: { id },
       },
+      loadRelationIds: true,
+      relations: ["user"],
     });
   }
 

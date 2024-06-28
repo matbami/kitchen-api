@@ -3,7 +3,7 @@ class MenuController {
   async createMenu(req, res) {
     try {
       const body = req.body;
-      body.userId = req.user.id;
+      body.user = req.user.id;
       const menu = await menuService.createMenuItem(body);
       res.status(201).json({ message: "Menu created successfully", menu });
     } catch (error) {
@@ -20,7 +20,7 @@ class MenuController {
     }
   }
 
-  async getAllMenu(req,res) {
+  async getAllMenu(req, res) {
     try {
       const menu = await menuService.getMenuItems();
       res.status(200).json({ message: "Menu retrieved successfully", menu });

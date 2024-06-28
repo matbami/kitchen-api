@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 
 export const UserSchema = new EntitySchema({
   name: "User",
-  tableName: "user",
+  tableName: "users",
   columns: {
     id: {
       primary: true,
@@ -40,5 +40,7 @@ export const UserSchema = new EntitySchema({
       enum: ["customer", "vendor"],
       default: "customer",
     },
-  },
+
+    
+  }
 });

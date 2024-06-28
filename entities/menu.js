@@ -37,10 +37,7 @@ export const MenuSchema = new EntitySchema({
     user: {
       type: "many-to-one",
       target: "User",
-      joinColumn: {
-        name: "userId",
-        referencedColumnName: "id",
-      },
+      joinColumn: true,
       eager: false,
     },
   },

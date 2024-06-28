@@ -47,9 +47,6 @@ class UserService {
 
   async getAllVendors() {
     return await this.userRepository.find({
-      where: {
-        role: role.VENDOR,
-      },
       select: ["businessName", "address"],
     });
   }
@@ -58,7 +55,6 @@ class UserService {
     return await this.userRepository.findOne({
       where: {
         id,
-        role: role.VENDOR,
       },
       select: ["businessName", "address"],
     });
