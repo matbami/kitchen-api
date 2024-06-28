@@ -19,9 +19,6 @@ class MenuService {
     });
   }
 
-  async getMenuItems() {
-    return await this.menuRepository.find();
-  }
 
   async getOneMenuItem(id) {
     return await this.menuRepository.findOne({
