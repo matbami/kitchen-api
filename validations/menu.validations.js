@@ -3,8 +3,7 @@ import Joi from "joi";
 export const createMenuSchema = Joi.object({
   name: Joi.string().required(),
   description: Joi.string().required(),
-  price: Joi.number().required(),
-  userId: Joi.string().required()
+  price: Joi.number().required()
 });
 
 export const updateMenuSchema = Joi.object({
