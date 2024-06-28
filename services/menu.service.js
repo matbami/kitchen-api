@@ -1,23 +1,12 @@
 import appDataSource from "../ormconfig.js";
 import { MenuSchema } from "../entities/menu.js";
 
-
 class MenuService {
   constructor() {
     this.menuRepository = appDataSource.getRepository(MenuSchema);
   }
   async createMenuItem(menuDetails) {
-
-    const k = menuDetails.userId
-    console.log(k)
-
-    const menu = this.menuRepository.create({
-      ...menuDetails,
-      k,
-    });
-
-    return await this.menuRepository.save(menu);
-   
+    return await this.menuRepository.save(menuDetails);
   }
 
   async getMenuItemsByVendorId(id) {
@@ -42,7 +31,6 @@ class MenuService {
 
   async updateMenuItem(id, criteria) {
     return await this.menuRepository.update(id, criteria);
-    
   }
 
   async deleteMenuItem(id) {
