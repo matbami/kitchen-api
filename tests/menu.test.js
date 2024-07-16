@@ -25,7 +25,6 @@ const authenticateToken = (req, res, next) => {
 
 app.use(authenticateToken);
 app.use("/api/v1/menu", menuRouter);
-// app.use("/api/v1/menu", userRouter);
 
 describe("MenuController", () => {
   afterEach(() => {
