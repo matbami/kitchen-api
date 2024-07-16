@@ -2,12 +2,15 @@ import express from "express";
 import ORMConfig from "./ormconfig.js";
 import menuRouter from "./routes/menu.route.js";
 import userRouter from "./routes/user.route.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
 app.use(express.json());
 app.use("/api/v1/menu", menuRouter);
-app.use("/api/v1/", userRouter);
+app.use("/api/v1", userRouter);
+
+app.use(errorHandler);
 
 // establish database connection
 ORMConfig.initialize()

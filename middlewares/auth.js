@@ -1,13 +1,14 @@
 import jwt from "jsonwebtoken";
+import { customError } from "../customError.js";
 
 export const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
-  if (token == null) return res.status(401).send('Unauthorized user');
+  if (token === null) throw new customError("Unauthorized user", 401);
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403);
+    if (err) throw new customError("Unauthorized user", 401);
     req.user = user;
     next();
   });
@@ -16,7 +17,7 @@ export const authenticateToken = (req, res, next) => {
 export const authorizeRole = (roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return res.status(403).send("Access denied");
+      throw new customError("Acess denied", 403);
     }
     next();
   };

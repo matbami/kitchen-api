@@ -17,7 +17,7 @@ menuRouter.post(
   authenticateToken,
   authorizeRole(role.VENDOR),
   validate(createMenuSchema),
-  (req, res) => MenuController.createMenu(req, res)
+  (req, res, next) => MenuController.createMenu(req, res, next)
 );
 menuRouter.patch(
   "/:id",
@@ -25,25 +25,24 @@ menuRouter.patch(
   authorizeRole(role.VENDOR),
   validate(updateMenuSchema),
   validateParams(menuIdSchema),
-  (req, res) => MenuController.updateMenuItem(req, res)
+  (req, res, next) => MenuController.updateMenuItem(req, res, next)
 );
 menuRouter.delete(
   "/:id",
   authenticateToken,
   authorizeRole(role.VENDOR),
   validateParams(menuIdSchema),
-  (req, res) => MenuController.deleteMenuItem(req, res)
+  (req, res, next) => MenuController.deleteMenuItem(req, res, next)
 );
 menuRouter.get(
   "/:id",
   authenticateToken,
-  authorizeRole(role.VENDOR),
   validateParams(menuIdSchema),
-  (req, res) => MenuController.getOneMenuItem(req, res)
+  (req, res, next) => MenuController.getOneMenuItem(req, res, next)
 );
 
-menuRouter.get("", authenticateToken, authorizeRole(role.VENDOR), (req, res) =>
-  MenuController.getAllMenu(req, res)
+menuRouter.get("", authenticateToken, authorizeRole(role.CUSTOMER), (req, res, next) =>
+  MenuController.getAllMenuItems(req, res, next)
 );
 
 export default menuRouter;

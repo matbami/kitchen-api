@@ -2,6 +2,7 @@ import appDataSource from "../ormconfig.js";
 import { UserSchema } from "../entities/user.js";
 import bcrypt from "bcryptjs";
 import { generateToken, role } from "../helper.js";
+import { customError } from "../customError.js";
 
 class UserService {
   constructor() {
@@ -27,14 +28,14 @@ class UserService {
       },
     });
     if (!user) {
-      throw new Error("Invalid email or password");
+      throw new customError("Invalid email or password", 401);
     }
     const validPassword = await bcrypt.compare(
       userDetails.password,
       user.password
     );
     if (!validPassword) {
-      throw new Error("Invalid email or password");
+      throw new customError("Invalid email or password", 401);
     }
     delete user.password;
 
@@ -47,17 +48,25 @@ class UserService {
 
   async getAllVendors() {
     return await this.userRepository.find({
-      select: ["businessName", "address"],
+      where: {
+        role: role.VENDOR,
+      },
+      select: ["id", "businessName", "address"],
     });
   }
 
   async getVendorById(id) {
-    return await this.userRepository.findOne({
+    const vendor = await this.userRepository.findOne({
       where: {
         id,
       },
-      select: ["businessName", "address"],
+      select: ["id", "businessName", "address"],
     });
+    if (!vendor) {
+      throw new customError("Vendor not found", 404);
+    }
+
+    return vendor;
   }
 }
 
