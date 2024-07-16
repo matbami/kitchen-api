@@ -12,19 +12,34 @@ import { role } from "../helper.js";
 
 const userRouter = express.Router();
 
-userRouter.post("/register", validate(registerSchema), (req, res) =>
-  UserController.register(req, res)
+userRouter.post("/register", validate(registerSchema), (req, res, next) =>
+  UserController.register(req, res, next)
 );
 
-userRouter.post("/login", validate(loginSchema), (req, res) =>
-  UserController.login(req, res)
+userRouter.post("/login", validate(loginSchema), (req, res, next) =>
+  UserController.login(req, res, next)
 );
 
 userRouter.get(
   "/vendors",
   authenticateToken,
   authorizeRole(role.CUSTOMER),
-  (req, res) => UserController.getAllVendors(req, res)
+  (req, res, next) => UserController.getAllVendors(req, res, next)
+);
+
+userRouter.get(
+  "/vendors/:id/menu",
+  authenticateToken,
+  authorizeRole(role.CUSTOMER),
+  validateParams(userIdSchema),
+  (req, res, next) =>
+    MenuController.getAllMenuByVendorForCustomers(req, res, next)
+);
+userRouter.get(
+  "/vendors/menu",
+  authenticateToken,
+  authorizeRole(role.VENDOR),
+  (req, res, next) => MenuController.getAllMenuForVendors(req, res, next)
 );
 
 userRouter.get(
@@ -32,14 +47,7 @@ userRouter.get(
   authenticateToken,
   authorizeRole(role.CUSTOMER),
   validateParams(userIdSchema),
-  (req, res) => UserController.getOneVendor(req, res)
-);
-userRouter.get(
-  "/vendors/:id/menu",
-  authenticateToken,
-  authorizeRole(role.CUSTOMER),
-  validateParams(userIdSchema),
-  (req, res) => MenuController.getAllMenuByVendorForCustomers(req, res)
+  (req, res, next) => UserController.getOneVendor(req, res, next)
 );
 
 export default userRouter;

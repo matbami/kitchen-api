@@ -18,8 +18,7 @@ export const MenuSchema = new EntitySchema({
       nullable: false,
     },
     price: {
-      type: "decimal",
-      scale: 2,
+      type: "varchar",
       nullable: false,
     },
     createdAt: {
